@@ -85,4 +85,17 @@ public class RegressTests {
         String text = JsonPath.from(json).getString("support.text");
         response.then().body(text, equalTo("To keep ReqRes free, contributions towards server costs are appreciated!"));
     }
+
+    @Test
+    public void registerUser() {
+        String email = "eve.holt@reqres.in";
+        String password = "pistol";
+        Response response = given()
+                .baseUri(baseUrl)
+                .basePath("/api/register")
+                .contentType(ContentType.JSON)
+                .body(String.format("{\"email\": \"%s\", \"password\": \"%s\"}", email, password))
+                .post();
+        response.then().body("id", equalTo(4)).body("token", equalTo("QpwL5tke4Pnpja7X4"));
+    }
 }
